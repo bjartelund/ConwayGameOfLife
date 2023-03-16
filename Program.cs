@@ -3,8 +3,8 @@
     static class Program
     {
         // Define the size of the grid
-        const int Rows = 20;
-        const int Cols = 40;
+        const int Rows = 28;
+        const int Cols = 115;
         static int changes = 0;
 
         static int generation = 0;
@@ -29,7 +29,7 @@
                 UpdateGrid();
 
                 // Wait for some time before repeating
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
                 generation++;
             }
         }
