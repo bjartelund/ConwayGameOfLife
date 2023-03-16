@@ -49,29 +49,27 @@
 
         static void DisplayGrid()
         {
-            // Clear the console screen
-            Console.Clear();
-            Console.WriteLine($"Generation {generation} - Changed cells {changes}");
-            // Loop through every cell in the grid
+            Console.CursorVisible = false; // Hide the cursor
+            Console.SetCursorPosition(0, 0);
+            string outputLine = string.Format("Generation {0,5} - Changed cells {1,5}", generation, changes);
+            Console.WriteLine(outputLine);
             for (int i = 0; i < Rows; i++)
             {
                 for (int j = 0; j < Cols; j++)
                 {
-                    // If the cell is alive, display a star (*)
                     if (grid[i, j])
                     {
                         Console.Write("*");
                     }
-                    else // If the cell is dead, display a space ( )
+                    else
                     {
                         Console.Write(" ");
                     }
                 }
-
-                // Move to the next line after each row
                 Console.WriteLine();
             }
         }
+
 
         static void UpdateGrid()
         {
