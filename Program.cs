@@ -3,22 +3,33 @@
     static class Program
     {
         // Define the size of the grid
-        const int Rows = 28;
-        const int Cols = 115;
+        static int Rows = 20;
+        static int Cols = 80;
         static int changes = 0;
+        static int seed = 42;
 
         static int generation = 0;
         // Create a random number generator
-        static Random random = new Random();
+        static Random random;
 
         // Create a boolean array to store the state of each cell
-        static bool[,] grid = new bool[Rows, Cols];
+        static bool[,] grid ;
 
         static void Main(string[] args)
         {
             // Initialize the grid with random values
+            if (args.Length> 0) {
+                int.TryParse(args[0],out seed);
+                random = new Random(seed);
+            } 
+            else {
+                random = new Random();
+                seed  = 0;
+                }
+            PrepareGrid();
             InitializeGrid();
 
+            PrepareDisplay();
             // Start an infinite loop
             while (true)
             {
@@ -29,13 +40,26 @@
                 UpdateGrid();
 
                 // Wait for some time before repeating
-                Thread.Sleep(1000);
+                Thread.Sleep(10);
                 generation++;
             }
         }
 
+        private static void PrepareGrid()
+        {
+            Rows=Console.LargestWindowHeight-2;
+            Cols = Console.LargestWindowWidth;
+            grid = new bool[Rows,Cols];
+        }
+
+        static void PrepareDisplay()
+        {
+            Console.CursorVisible = false; // Hide the cursor
+            Console.Clear();
+        }
         static void InitializeGrid()
         {
+            
             // Loop through every cell in the grid
             for (int i = 0; i < Rows; i++)
             {
@@ -45,13 +69,13 @@
                     grid[i, j] = random.Next(2) == 0;
                 }
             }
+
         }
 
         static void DisplayGrid()
         {
-            Console.CursorVisible = false; // Hide the cursor
             Console.SetCursorPosition(0, 0);
-            string outputLine = string.Format("Generation {0,5} - Changed cells {1,5}", generation, changes);
+            string outputLine = string.Format("Generation {0,5} - Changed cells {1,5} - Seed {2,5}", generation, changes, seed);
             Console.WriteLine(outputLine);
             for (int i = 0; i < Rows; i++)
             {
@@ -66,7 +90,6 @@
                         Console.Write(" ");
                     }
                 }
-                Console.WriteLine();
             }
         }
 
