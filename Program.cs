@@ -1,4 +1,6 @@
-﻿namespace GameOfLife
+﻿using System.Text;
+
+namespace GameOfLife
 {
     static class Program
     {
@@ -47,8 +49,8 @@
 
         private static void PrepareGrid()
         {
-            Rows=Console.LargestWindowHeight-2;
-            Cols = Console.LargestWindowWidth;
+            Rows=Console.WindowHeight -2;
+            Cols = Console.WindowWidth;
             grid = new bool[Rows,Cols];
         }
 
@@ -77,20 +79,15 @@
             Console.SetCursorPosition(0, 0);
             string outputLine = string.Format("Generation {0,5} - Changed cells {1,5} - Seed {2,5}", generation, changes, seed);
             Console.WriteLine(outputLine);
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < Rows; i++)
             {
                 for (int j = 0; j < Cols; j++)
                 {
-                    if (grid[i, j])
-                    {
-                        Console.Write("*");
-                    }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
+                    sb.Append(grid[i, j] ? "*" : " ");
                 }
             }
+            Console.WriteLine(sb.ToString());
         }
 
 
@@ -111,7 +108,7 @@
 
                     if (grid[i, j])
                     {
-                        if (liveNeighbours < 2 || liveNeighbours > 3)
+                        if (liveNeighbours is < 2 or > 3)
                         {
                             newGrid[i, j] = false;
                         }
